@@ -6,7 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import solutions.belov.tms_an_15_homework_lesson_19.databinding.NoteItemBinding
 
-class NoteAdapter(private val notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(private val notes: List<Note>) :
+    RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+    private var itemClickListener: OnNoteItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnNoteItemClickListener) {
+        itemClickListener = listener
+    }
+
     inner class NoteViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val binding = NoteItemBinding.bind(item)
         fun bind(note: Note) = with(binding) {
@@ -22,7 +29,12 @@ class NoteAdapter(private val notes: List<Note>) : RecyclerView.Adapter<NoteAdap
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        holder.bind(notes[position])
+        val note = notes[position]
+        holder.bind(note)
+
+        holder.itemView.setOnClickListener {
+            itemClickListener?.onItemClick(note)
+        }
     }
 
     override fun getItemCount(): Int {

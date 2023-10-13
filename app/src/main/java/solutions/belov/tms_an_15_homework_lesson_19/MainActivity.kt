@@ -1,12 +1,12 @@
 package solutions.belov.tms_an_15_homework_lesson_19
 
+import AddNoteActivity
+import NoteDetailActivity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import solutions.belov.tms_an_15_homework_lesson_19.databinding.ActivityMainBinding
 
@@ -20,30 +20,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        init()
-
         binding.fab.setOnClickListener {
             val intent = Intent(this@MainActivity, AddNoteActivity::class.java)
             startActivityForResult(intent, 1)
         }
-    }
 
-    private fun init() {
+        adapter.setOnItemClickListener(object : OnNoteItemClickListener {
+            override fun onItemClick(note: Note) {
+                val intent = Intent(this@MainActivity, NoteDetailActivity::class.java)
+                intent.putExtra(Keys.KEY_TITLE, note.title)
+                intent.putExtra(Keys.KEY_TEXT, note.text)
+                startActivity(intent)
+            }
+        })
+
         with(binding) {
             recyclerView.isVisible = false
-            if (adapter.itemCount > 0) {
-                noNotes.isVisible = false
-                recyclerView.isVisible = true
-                recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
-                recyclerView.adapter = adapter
-
-                recyclerView.addItemDecoration(
-                    DividerItemDecoration(
-                        this@MainActivity,
-                        LinearLayoutManager.VERTICAL
-                    )
-                )
-            }
+            recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+            recyclerView.adapter = adapter
+            recyclerView.addItemDecoration(SpaceItemDecoration(16))
         }
     }
 
@@ -51,15 +46,11 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             data?.extras?.let {
-                val title = it.getString("title").toString()
-                val text = it.getString("text").toString()
-                val date = it.getString("date").toString()
+                val title = it.getString(Keys.KEY_TITLE, "")
+                val text = it.getString(Keys.KEY_TEXT, "")
+                val date = it.getString(Keys.KEY_DATE, "")
                 notes.add(Note(title, text, date))
-
-                Log.d("ZZZ", notes.toString())
                 adapter.notifyDataSetChanged()
-
-                init()
             }
         }
     }
