@@ -1,6 +1,7 @@
+package solutions.belov.tms_an_15_homework_lesson_19;
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import solutions.belov.tms_an_15_homework_lesson_19.Keys
 import solutions.belov.tms_an_15_homework_lesson_19.databinding.ActivityNoteDetailBinding
 
 class NoteDetailActivity : AppCompatActivity() {

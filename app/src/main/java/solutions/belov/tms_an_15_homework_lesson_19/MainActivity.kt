@@ -1,10 +1,9 @@
 package solutions.belov.tms_an_15_homework_lesson_19
 
-import AddNoteActivity
-import NoteDetailActivity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,6 +49,14 @@ class MainActivity : AppCompatActivity() {
                 val text = it.getString(Keys.KEY_TEXT, "")
                 val date = it.getString(Keys.KEY_DATE, "")
                 notes.add(Note(title, text, date))
+
+                if (notes.isNotEmpty()) {
+                    with(binding) {
+                        noNotes.isVisible = false
+                        recyclerView.isVisible = true
+                    }
+                }
+
                 adapter.notifyDataSetChanged()
             }
         }

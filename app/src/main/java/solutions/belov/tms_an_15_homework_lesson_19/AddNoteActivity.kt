@@ -1,8 +1,9 @@
+package solutions.belov.tms_an_15_homework_lesson_19
+
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import solutions.belov.tms_an_15_homework_lesson_19.Keys
 import solutions.belov.tms_an_15_homework_lesson_19.databinding.ActivityAddNoteBinding
 import java.text.SimpleDateFormat
 import java.util.Date
