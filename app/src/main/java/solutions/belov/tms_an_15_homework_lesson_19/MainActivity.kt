@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener {
             val intent = Intent(this@MainActivity, AddNoteActivity::class.java)
-            startActivityForResult(intent, 1)
+            startActivityForResult(intent, REQUEST)
         }
 
         adapter.setOnItemClickListener(object : OnNoteItemClickListener {
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST && resultCode == Activity.RESULT_OK) {
             data?.extras?.let {
                 val title = it.getString(Keys.KEY_TITLE, "")
                 val text = it.getString(Keys.KEY_TEXT, "")
@@ -57,8 +57,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                adapter.notifyDataSetChanged()
+                adapter.notifyItemInserted(notes.size - 1)
             }
         }
+    }
+
+    companion object {
+        const val REQUEST = 1
     }
 }

@@ -24,8 +24,7 @@ class NoteAdapter(private val notes: List<Note>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val item = LayoutInflater.from(parent.context).inflate(R.layout.note_item, parent, false)
-        return NoteViewHolder(item)
+        return NoteViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.note_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
